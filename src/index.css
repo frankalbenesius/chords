@@ -67,7 +67,8 @@ html {
 }
 
 .section .chord {
-  flex: 0 0 3rem;
+  font-size: 1.75rem;
+  flex: 0 0 2.5rem;
   background: red;
   display: flex;
   justify-content: center;
