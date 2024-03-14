@@ -42,6 +42,7 @@ html {
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 0.25rem;
 }
 
 .section .content {
@@ -51,6 +52,7 @@ html {
   display: flex;
   flex-direction: row;
   justify-content: start;
+  line-height: 1;
 }
 
 .section .content .modifier {
@@ -60,5 +62,16 @@ html {
 .section .label {
   text-transform: uppercase;
   font-family: monospace;
-  font-size: 14px;
+  font-size: 0.5rem;
+  color: #666;
+}
+
+button {
+  padding: 0.25rem 0.5rem;
+  font-size: 1rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 0.25rem;
+  background: #000;
+  color: #fff;
 }

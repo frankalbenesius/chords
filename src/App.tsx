@@ -1,35 +1,27 @@
 import React, { useReducer } from "react";
 
-const Scale = {
-  C: 0,
-  "C♯/D♭": 1,
-  D: 2,
-  "D♯/E♭": 3,
-  E: 4,
-  F: 5,
-  "F♯/G♭": 6,
-  G: 7,
-  "G♯/A♭": 8,
-  A: 9,
-  "A♯/B♭": 10,
-  B: 11,
-} as const;
-type Scale = (typeof Scale)[keyof typeof Scale];
+const scales = [
+  "C",
+  "C♯/D♭",
+  "D",
+  "D♯/E♭",
+  "E",
+  "F",
+  "F♯/G♭",
+  "G",
+  "G♯/A♭",
+  "A",
+  "A♯/B♭",
+  "B",
+] as const;
+type Scale = (typeof scales)[number];
 
-const MajorChord = {
-  I: 0,
-  ii: 1,
-  iii: 2,
-  IV: 3,
-  V: 4,
-  vi: 5,
-  "vii°": 6,
-} as const;
-type MajorChord = (typeof MajorChord)[keyof typeof MajorChord];
+const chords = ["I", "ii", "iii", "IV", "V", "vi", "vii°"] as const;
+type Chord = (typeof chords)[number];
 
 type State = {
   scale: Scale;
-  progression: MajorChord[];
+  progression: Chord[];
 };
 
 type Action = {
@@ -52,34 +44,44 @@ const reducer: Reducer = (state, action) => {
   }
 };
 
+const getRandomState = (): State => {
+  const progression: Chord[] = ["I"];
+
+  for (let i = 0; i < 3; i++) {
+    progression.push(getRandomChord({ exclude: progression }));
+  }
+
+  if (Math.random() > 0.5) {
+    progression.reverse();
+  }
+
+  return {
+    scale: scales[Math.floor(Math.random() * scales.length)],
+    progression: progression,
+  };
+};
+
+const getRandomChord = ({ exclude }: { exclude: Chord[] }): Chord => {
+  const eligibleChords = chords.filter((chord) => !exclude.includes(chord));
+  return eligibleChords[Math.floor(Math.random() * eligibleChords.length)];
+};
+
 export default function App() {
-  const [state, dispatch] = useReducer<Reducer>(reducer, {
-    scale: Scale.C,
-    progression: [MajorChord.I, MajorChord.I, MajorChord.I, MajorChord.I],
-  });
+  const [state, dispatch] = useReducer<Reducer>(reducer, getRandomState());
+
+  const randomize = () => {
+    dispatch({
+      type: "RANDOMIZE",
+      payload: getRandomState(),
+    });
+  };
 
   return (
     <main>
       <div className="sections">
         <KeySection scale={state.scale} />
-        <ProgressionSection />
-        <button
-          type="button"
-          onClick={() =>
-            dispatch({
-              type: "RANDOMIZE",
-              payload: {
-                scale: Math.floor(Math.random() * 12) as Scale,
-                progression: [
-                  MajorChord.I,
-                  MajorChord.I,
-                  MajorChord.I,
-                  MajorChord.I,
-                ].map(() => Math.floor(Math.random() * 7) as MajorChord),
-              },
-            })
-          }
-        >
+        <ProgressionSection progression={state.progression} />
+        <button type="button" onClick={randomize}>
           Randomize
         </button>
       </div>
@@ -104,10 +106,12 @@ const KeySection: React.FC<{
   );
 };
 
-const ProgressionSection = () => {
+const ProgressionSection: React.FC<{
+  progression: Chord[];
+}> = ({ progression }) => {
   return (
     <section className="section progression">
-      <div className="content">{MajorChord["vii°"]}</div>
+      <div className="content">{progression.join(" - ")}</div>
       <div className="label">progression</div>
     </section>
   );
