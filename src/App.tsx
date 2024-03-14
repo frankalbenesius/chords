@@ -1,3 +1,10 @@
+// type Note = "C" | "D" | "E" | "F" | "G" | "A" | "B";
+// type Modifier = "♯" | "♭" | "";
+// type State = {
+//   key: string;
+//   progression: string;
+// };
+
 export default function App() {
   return (
     <main>
@@ -10,7 +17,7 @@ export default function App() {
 }
 
 const SHARP = "♯";
-const FLAT = "♭";
+// const FLAT = "♭";
 
 const KeySection = () => {
   return (
