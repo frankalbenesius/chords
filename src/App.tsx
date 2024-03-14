@@ -105,7 +105,13 @@ const ProgressionSection: React.FC<{
 }> = ({ progression }) => {
   return (
     <section className="section progression">
-      <div className="content">{progression.join(" - ")}</div>
+      <div className="content">
+        {progression.map((chord, index) => (
+          <div key={index} className="chord">
+            {chord}
+          </div>
+        ))}
+      </div>
       <div className="label">progression</div>
     </section>
   );

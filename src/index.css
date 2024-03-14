@@ -48,11 +48,15 @@ html {
 .section .content {
   font-size: 2rem;
   font-weight: 700;
-  margin: 0;
   display: flex;
   flex-direction: row;
-  justify-content: start;
+  justify-content: center;
   line-height: 1;
+  gap: 0.25rem;
+}
+
+.key .content {
+  font-size: 3rem;
 }
 
 .section .label {
@@ -60,6 +64,18 @@ html {
   font-family: monospace;
   font-size: 0.5rem;
   color: #666;
+}
+
+.section .chord {
+  flex: 0 0 3rem;
+  background: red;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  background-color: #eee;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
 }
 
 button {
