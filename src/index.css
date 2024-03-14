@@ -55,10 +55,6 @@ html {
   line-height: 1;
 }
 
-.section .content .modifier {
-  font-size: 1.5rem;
-}
-
 .section .label {
   text-transform: uppercase;
   font-family: monospace;

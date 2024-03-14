@@ -2,17 +2,17 @@ import React, { useReducer } from "react";
 
 const scales = [
   "C",
-  "C♯/D♭",
-  "D",
-  "D♯/E♭",
-  "E",
-  "F",
-  "F♯/G♭",
   "G",
-  "G♯/A♭",
+  "D",
   "A",
-  "A♯/B♭",
-  "B",
+  "E",
+  "B/C♭",
+  "F♯/G♭",
+  "C♯/D♭",
+  "A♭",
+  "E♭",
+  "B♭",
+  "F",
 ] as const;
 type Scale = (typeof scales)[number];
 
@@ -89,18 +89,12 @@ export default function App() {
   );
 }
 
-const SHARP = "♯";
-// const FLAT = "♭";
-
 const KeySection: React.FC<{
   scale: Scale;
 }> = ({ scale }) => {
   return (
     <section className="section key">
-      <div className="content">
-        {scale}
-        <span className="modifier">{SHARP}</span>
-      </div>
+      <div className="content">{scale}</div>
       <div className="label">key</div>
     </section>
   );
