@@ -26,19 +26,19 @@ type State = {
 
 type Action = {
   type: "RANDOMIZE";
-  payload: State;
 };
 
 type Reducer = (state: State, action: Action) => State;
 
 const reducer: Reducer = (state, action) => {
   switch (action.type) {
-    case "RANDOMIZE":
+    case "RANDOMIZE": {
+      const randomState = getRandomState();
       return {
         ...state,
-        scale: action.payload.scale,
-        progression: action.payload.progression,
+        ...randomState,
       };
+    }
     default:
       return state;
   }
@@ -46,6 +46,11 @@ const reducer: Reducer = (state, action) => {
 
 const getRandomState = (): State => {
   const progression: Chord[] = ["I"];
+
+  const getRandomChord = ({ exclude }: { exclude: Chord[] }): Chord => {
+    const eligibleChords = chords.filter((chord) => !exclude.includes(chord));
+    return eligibleChords[Math.floor(Math.random() * eligibleChords.length)];
+  };
 
   for (let i = 0; i < 3; i++) {
     progression.push(getRandomChord({ exclude: progression }));
@@ -61,18 +66,12 @@ const getRandomState = (): State => {
   };
 };
 
-const getRandomChord = ({ exclude }: { exclude: Chord[] }): Chord => {
-  const eligibleChords = chords.filter((chord) => !exclude.includes(chord));
-  return eligibleChords[Math.floor(Math.random() * eligibleChords.length)];
-};
-
 export default function App() {
   const [state, dispatch] = useReducer<Reducer>(reducer, getRandomState());
 
   const randomize = () => {
     dispatch({
       type: "RANDOMIZE",
-      payload: getRandomState(),
     });
   };
 
