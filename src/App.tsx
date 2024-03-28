@@ -48,8 +48,13 @@ const getRandomState = (): State => {
   const progression: Chord[] = ["I"];
 
   const getRandomChord = ({ exclude }: { exclude: Chord[] }): Chord => {
-    const eligibleChords = chords.filter((chord) => !exclude.includes(chord));
-    return eligibleChords[Math.floor(Math.random() * eligibleChords.length)];
+    let eligibleChords = chords.filter((chord) => !exclude.includes(chord));
+    if (Math.random() > 0.3) {
+      eligibleChords = eligibleChords.filter((chord) => chord !== "vii°");
+    }
+    const randomChord =
+      eligibleChords[Math.floor(Math.random() * eligibleChords.length)];
+    return randomChord;
   };
 
   for (let i = 0; i < 3; i++) {
